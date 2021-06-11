@@ -14,8 +14,8 @@ SERVICES = (
 
 class Sales(models.Model):
 
-    document = models.IntegerField(verbose_name='Dni/Ruc')
-    company = models.BooleanField(verbose_name='Es una empresa', default=True)
+    document = models.IntegerField(verbose_name='Dni/Ruc', unique=True)
+    company = models.BooleanField(verbose_name='Es una empresa', default=False)
     vendor = models.CharField(verbose_name='Vendedor', max_length=150)
     name = models.CharField(verbose_name='Nombre del cliente', max_length=200)
     address = models.CharField(verbose_name='Direccion', max_length=200)
@@ -30,6 +30,9 @@ class Sales(models.Model):
     install_date = models.DateField(verbose_name='Fecha de instalacion')
     materials = models.TextField(verbose_name='Materiales')
     price = models.FloatField(verbose_name='Precio')
+
+    def __str__(self) -> str:
+        return str(self.document)
 
     class Meta:
 
