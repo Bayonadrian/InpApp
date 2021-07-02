@@ -9,17 +9,35 @@ from Finanzas.models.SalesFormModels import Sales
 class FinanazasTest(TestCase):
 
     def setUp(self) -> None:
+
+        print(timezone.now())
         
-        self.sales = Sales.objects.create(document = 2072948331, vendor = 'r13_96@gmail.com', 
-        name = 'Sebastian', address = 'Av. La cultura', district = 'Wanchaq',
-        refference = 'Parque San Borja', phone = 984338833, mail = 'ym@gmail.com', 
-        observations = 'Sin observaciones', priority = 'A', service = 'Ambos', install_date = '2021-05-11', 
-        materials ='200 metros de cable', price = 0)
+        self.sales = Sales.objects.create(document = 2072948331,
+        speed = "200mb",
+        province = "Cusco",
+        payment = '2022-06-11', 
+        vendor = 'r13_96@gmail.com', 
+        name = 'Sebastian', 
+        address = 'Av. La cultura', 
+        district = 'Wanchaq',
+        refference = 'Parque San Borja', 
+        phone = 984338833, 
+        mail = 'ym@gmail.com', 
+        observations = 'Sin observaciones', 
+        priority = 'A', 
+        service = 'Ambos', 
+        install_date = '2021-05-11', 
+        materials ='200 metros de cable', 
+        price = 0
+        )
     
     def test_sales(self) -> None:
 
         self.assertEqual(self.sales.document, 2072948331)
-        self.assertEqual(self.sales.company, True)
+        self.assertEqual(self.sales.speed, '200mb')
+        self.assertEqual(self.sales.province, 'Cusco')
+        self.assertEqual(self.sales.payment, '2022-06-11')
+        self.assertEqual(self.sales.company, False)
         self.assertEqual(self.sales.vendor, 'r13_96@gmail.com')
         self.assertEqual(self.sales.name, 'Sebastian')
         self.assertEqual(self.sales.address, 'Av. La cultura')
@@ -34,7 +52,3 @@ class FinanazasTest(TestCase):
         self.assertEqual(self.sales.install_date, '2021-05-11')
         self.assertEqual(self.sales.materials, '200 metros de cable')
         self.assertEqual(self.sales.price, 0)
-        
-
-
-    
