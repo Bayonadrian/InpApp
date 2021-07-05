@@ -9,8 +9,6 @@ from Finanzas.models.SalesFormModels import Sales
 class FinanazasTest(TestCase):
 
     def setUp(self) -> None:
-
-        print(timezone.now())
         
         self.sales = Sales.objects.create(
         document = 2072948331,
