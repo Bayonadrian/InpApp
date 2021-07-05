@@ -32,6 +32,7 @@ def sales(request):
             'speed': request.POST['speed'],
             'province': request.POST['province'],
             'payment': request.POST['payment'],
+            'ip': request.POST['ip'],
             'phone': request.POST['phone'],
             'mail': request.POST['mail'],
             'observations': request.POST['observations'],
@@ -57,7 +58,7 @@ def sales(request):
 
             pdf = canvas.Canvas(response, pagesize =A4)
             pdf.setFont('Times-Roman', 15)
-            pdf.drawString((w/2)-50, h-20, 'Documento N°: {num}'.format(num= sale.id))
+            pdf.drawString((w/2)-50, h-20, 'Documento: {num}'.format(num= sale.id))
             pdf.drawString(10, h-50, 'Vendedor: {vendor}'.format(vendor= sale.vendor))
             pdf.drawString(10, h-80, 'Nombre: {name}'.format(name= sale.name))
             pdf.drawString(10, h-110, 'Direccion: {address}'.format(address= sale.address))
@@ -73,8 +74,12 @@ def sales(request):
             pdf.drawString(10, h-410, 'Servicio: {service}'.format(service= sale.service))
             pdf.drawString(10, h-440, 'Fecha: {date}'.format(date= sale.date))
             pdf.drawString(10, h-470, 'Precio: {price}'.format(price= sale.price))
-            pdf.drawString((w/2)-50, h-500, '...............................')
-            pdf.drawString((w/2)-10, h-530, 'Firma')
+            if sale.company == True:
+                pdf.drawString(10, h-500, 'ip: {ip}'.format(ip= sale.ip))
+            else:
+                pass
+            pdf.drawString((w/2)-50, h-530, '...............................')
+            pdf.drawString((w/2)-10, h-560, 'Firma')
             pdf.showPage()
             pdf.save()
 
