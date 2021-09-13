@@ -27,8 +27,9 @@ class FinanazasTest(TestCase):
         priority = 'A', 
         service = 'Ambos', 
         install_date = '2021-05-11', 
-        materials ='200 metros de cable', 
-        status ='Cancelacion',
+        materials = '200 metros de cable',
+        toPay = '2000',
+        status = 'Cancelacion',
         price = 0
         )
     
@@ -53,5 +54,6 @@ class FinanazasTest(TestCase):
         self.assertEqual(self.sales.date, timezone.now().date())
         self.assertEqual(self.sales.install_date, '2021-05-11')
         self.assertEqual(self.sales.materials, '200 metros de cable')
+        self.assertEqual(self.sales.toPay, '2000')
         self.assertEqual(self.sales.status, 'Cancelacion')
         self.assertEqual(self.sales.price, 0)
