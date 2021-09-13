@@ -17,7 +17,7 @@ class UserAccountTests(TestCase):
         self.assertTrue(super_user.is_superuser)
         self.assertTrue(super_user.is_staff)
         self.assertTrue(super_user.is_active)
-        self.assertEqual(str(super_user), "username")
+        self.assertEqual(str(super_user), "testuser@super.com")
 
         with self.assertRaises(ValueError):
             db.objects.create_superuser(
@@ -35,7 +35,7 @@ class UserAccountTests(TestCase):
         db = get_user_model()
         user = db.objects.create_user(
             'testuser@super.com', 'username', 'lastname', '2021-03-03', 'Gerencia', 4000, 'password')
-        self.assertEqual(user.email, 'testuser@user.com')
+        self.assertEqual(user.email, 'testuser@super.com')
         self.assertEqual(user.user_name, 'username')
         self.assertEqual(user.last_name, 'lastname')
         self.assertEqual(user.start_date, '2021-03-03')

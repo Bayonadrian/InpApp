@@ -12,6 +12,13 @@ SERVICES = (
     ('Ambos', 'Ambos'),
 )
 
+STATUS = (
+    ('Activo', 'Activo'),
+    ('Temporal', 'Corte temporal'),
+    ('Mora', 'Corte por mora'),
+    ('Cancelacion', 'Corte por cancelacion del contrato'),
+)
+
 class Sales(models.Model):
 
     document = models.IntegerField(verbose_name='Dni/Ruc', unique=True)
@@ -33,6 +40,7 @@ class Sales(models.Model):
     date = models.DateField(verbose_name='Fecha', auto_now_add=True)
     install_date = models.DateField(verbose_name='Fecha de instalacion', blank=True, null=True)
     materials = models.TextField(verbose_name='Materiales', blank=True)
+    status = models.CharField(verbose_name='Status del servicio', max_length=20, choices=STATUS, blank=True)
     price = models.FloatField(verbose_name='Precio')
 
     def __str__(self) -> str:
