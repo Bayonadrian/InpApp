@@ -11,7 +11,6 @@ from reportlab.lib.pagesizes import A4
 from Personal.functions import area
 from Finanzas.forms import SalesForm, Sales
 
-
 @login_required(login_url='index')
 def sales(request):
 
@@ -92,3 +91,8 @@ def sales(request):
             return render(request, 'Finanzas_sales.html', context= context)
 
     return render(request, 'Finanzas_sales.html', context= context)
+
+@login_required(login_url='index')
+def todaysAbstract(request):
+
+    return render(request, 'Finanzas_todaysAbstract.html')
