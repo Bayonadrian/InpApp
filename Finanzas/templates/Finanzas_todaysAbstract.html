@@ -1,7 +1,46 @@
 {% extends 'Finanzas_index.html' %}
 {% if area == 'Ventas' %}
 {% block section %}
-
+    <header>
+        <div>
+            <h1 style="text-align: center;">
+                Resumen de ventas
+            </h1>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Vendedor</th>
+                    <th scope="col">Numero de documento</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Servicio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in abstract %}
+                  <tr>
+                    <td>
+                      {{ i.vendor }}
+                    </td>
+                    <td>
+                      {{ i.document }}
+                    </td>
+                    <td>
+                      {{ i.name }}
+                    </td>
+                    <td>
+                      {{ i.service }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </header>
 {% endblock %}
 {% else %}
+    <p>
+        No pertenece a esta area
+    </p>
 {% endif %}

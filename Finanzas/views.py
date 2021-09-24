@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 #python modules
 import io
 #third party-modules
@@ -95,4 +96,8 @@ def sales(request):
 @login_required(login_url='index')
 def todaysAbstract(request):
 
-    return render(request, 'Finanzas_todaysAbstract.html')
+    abstract = Sales.objects.filter(date__day=timezone.datetime.today().day)
+
+    context = area(request, abstract=abstract)
+
+    return render(request, 'Finanzas_todaysAbstract.html', context=context)
