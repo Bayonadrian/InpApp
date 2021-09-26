@@ -4,10 +4,11 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 #python modules
-import io
+import os.path
 #third party-modules
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import ImageReader
 #own modules
 from Personal.functions import area
 from Finanzas.forms import SalesForm, Sales
@@ -21,9 +22,19 @@ def sales(request):
 
     if request.method == 'POST':
 
+        typeOf = ""
+
+        if request.POST['company'] == True:
+
+            typeOf = 'Empresa'
+        
+        else:
+
+            typeOf = 'Particular'
+
         data = {
             'document': request.POST['document'],
-            'company': request.POST['company'],
+            'company': typeOf,
             'vendor': request.user,
             'name': request.POST['name'],
             'address': request.POST['address'],
@@ -57,29 +68,40 @@ def sales(request):
             response['Content-Disposition'] = 'attachment; filename="report.pdf"'
 
             pdf = canvas.Canvas(response, pagesize =A4)
-            pdf.setFont('Times-Roman', 15)
-            pdf.drawString((w/2)-50, h-20, 'Documento: {num}'.format(num= sale.id))
-            pdf.drawString(10, h-50, 'Vendedor: {vendor}'.format(vendor= sale.vendor))
-            pdf.drawString(10, h-80, 'Nombre: {name}'.format(name= sale.name))
-            pdf.drawString(10, h-110, 'Direccion: {address}'.format(address= sale.address))
-            pdf.drawString(10, h-140, 'Distrito: {district}'.format(district= sale.district))
-            pdf.drawString(10, h-170, 'Referencia: {refference}'.format(refference= sale.refference))
-            pdf.drawString(10, h-200, 'Velocidad de internet: {speed}'.format(speed= sale.speed))
-            pdf.drawString(10, h-230, 'Province: {province}'.format(province= sale.province))
-            pdf.drawString(10, h-260, 'Fecha de inicio y pagos: {payment}'.format(payment= sale.payment))
-            pdf.drawString(10, h-290, 'Telefono: {phone}'.format(phone= sale.phone))
-            pdf.drawString(10, h-320, 'E-mail: {mail}'.format(mail= sale.mail))
-            pdf.drawString(10, h-350, 'Obaservaciones: {observations}'.format(observations= sale.observations))
-            pdf.drawString(10, h-380, 'Prioridad: {priority}'.format(priority= sale.priority))
-            pdf.drawString(10, h-410, 'Servicio: {service}'.format(service= sale.service))
-            pdf.drawString(10, h-440, 'Fecha: {date}'.format(date= sale.date))
-            pdf.drawString(10, h-470, 'Precio: {price}'.format(price= sale.price))
-            if sale.company == True:
-                pdf.drawString(10, h-500, 'ip: {ip}'.format(ip= sale.ip))
-            else:
-                pass
-            pdf.drawString((w/2)-50, h-530, '...............................')
-            pdf.drawString((w/2)-10, h-560, 'Firma')
+            pdf.setFont('Helvetica-Bold', 14)
+            pdf.drawString((w/2)-150, h-20, 'Contrato de prestacion de servicios N° {num} - {date}'.format(num= sale.id, date=timezone.datetime.today().year))
+            pdf.setFont('Helvetica', 14)
+
+            # find and read
+
+            path = os.path.realpath('Finanzas/pdfMk/Company/companyContract.md')
+
+            with open(path, 'r') as companyContract:
+
+                imgPath = os.path.realpath('static/images/logo.png')
+
+                logo =  ImageReader(imgPath)
+
+                pdf.drawImage(logo, (w/2)-170, h-350)
+                pdf.drawString(30, h-50, companyContract.readline(62))
+                pdf.drawString(30, h-70, companyContract.readline(62))
+                pdf.drawString(30, h-90, companyContract.readline(62))
+                pdf.drawString(30, h-110, companyContract.readline(62))
+                pdf.drawString(30, h-130, companyContract.readline(62))
+                pdf.drawString(30, h-150, companyContract.readline(62))
+                pdf.drawString(30, h-170, companyContract.readline(62))
+                pdf.drawString(30, h-190, companyContract.readline(62))
+                pdf.drawString(30, h-210, companyContract.readline(62))
+                pdf.drawString(30, h-230, companyContract.readline(36))
+                pdf.drawString(30, h-250, companyContract.readline(3).format(sale.name))
+                pdf.drawString(30, h-270, companyContract.readline(10))
+                pdf.drawString(30, h-290, companyContract.readline(3).format(sale.document))
+                pdf.drawString(30, h-310, companyContract.readline(15))
+                pdf.drawString(30, h-330, companyContract.readline(3).format(sale.address))
+                pdf.setFont('Helvetica-Bold', 14)
+                pdf.drawString(30, h-350, 'OBJETO DEL CONTRATO')
+                pdf.setFont('Helvetica', 14)
+
             pdf.showPage()
             pdf.save()
 

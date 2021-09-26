@@ -22,7 +22,7 @@ STATUS = (
 class Sales(models.Model):
 
     document = models.IntegerField(verbose_name='Dni/Ruc', unique=True)
-    company = models.BooleanField(verbose_name='Es una empresa', default=False)
+    company = models.CharField(verbose_name='Tipo de cliente', max_length=30)
     speed = models.CharField(verbose_name="Velocidad de internet", max_length=20)
     province = models.CharField(verbose_name="Provincia a la que pertenece", max_length=50)
     payment = models.CharField(verbose_name='Fecha de pago', max_length=100)
