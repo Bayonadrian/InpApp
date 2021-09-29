@@ -12,8 +12,10 @@ class FinanazasTest(TestCase):
         
         self.sales = Sales.objects.create(
         document = 2072948331,
+        company = False,
         speed = "200mb",
         province = "Cusco",
+        department = "Cusco",
         payment = 'El 10 de cada mes',
         ip = '200', 
         vendor = 'r13_96@gmail.com', 
@@ -38,6 +40,7 @@ class FinanazasTest(TestCase):
         self.assertEqual(self.sales.document, 2072948331)
         self.assertEqual(self.sales.speed, '200mb')
         self.assertEqual(self.sales.province, 'Cusco')
+        self.assertEqual(self.sales.department, 'Cusco'),
         self.assertEqual(self.sales.payment, 'El 10 de cada mes')
         self.assertEqual(self.sales.ip, '200')
         self.assertEqual(self.sales.company, False)
